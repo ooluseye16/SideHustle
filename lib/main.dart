@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'api.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,7 +34,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   Future getWeather() async {
     http.Response response = await http.get(
-        "http://api.openweathermap.org/data/2.5/weather?q=$city&units=imperial&appid=56245a3d9bcb85cf8086be3bcc3f3ab8");
+       api(city));
     var result = jsonDecode(response.body);
     setState(() {
       this.temp = result['main']['temp'];
@@ -68,7 +70,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         fontWeight: FontWeight.w600,
                       )),
                   SizedBox(height: 10.0),
-                  Text('You have a $currently Cloud',
+                  Text(currently != null?'You have a $currently Cloud': "Loading",
                       style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w500,
